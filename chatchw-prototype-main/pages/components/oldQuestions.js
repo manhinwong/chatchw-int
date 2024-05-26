@@ -230,7 +230,7 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   separator: {
   borderBottomWidth: 1,
   borderBottomColor: '#ccc',  // Color of the separator line
