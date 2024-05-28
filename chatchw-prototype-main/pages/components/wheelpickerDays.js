@@ -2,16 +2,16 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native'; 
 import RNPickerSelect from 'react-native-picker-select';
 
-const WheelPicker = ({ ageValue, setAgeValue }) => { 
-  const options = Array.from(Array(100).keys()).map((num) => ({ label: `${num + 1} Years Old`, value: `${num + 1} Years Old` }));
+const WheelPickerDays = ({ DaysValue, setDaysValue }) => { 
+  const options = Array.from(Array(100).keys()).map((num) => ({ label: `${num + 1} Days`, value: `${num + 1} Days` }));
 
   
   return ( 
     <View style={styles.container}> 
       <RNPickerSelect 
-        onValueChange={(value) => setAgeValue(value)} 
+        onValueChange={(value) => setDaysValue(value)} 
         items={options} 
-        value={ageValue} 
+        value={DaysValue} 
       /> 
     </View> 
   ); 
@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
     padding: 15, 
     margin: 10,
     borderRadius: 10,
-    marginTop: -30,
+    marginTop: 10,
     width: 350,
   } 
 });
 
-export default WheelPicker;
+export default WheelPickerDays;

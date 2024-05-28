@@ -88,14 +88,14 @@ const handleClick = () => {
       <Text style={styles.questionText}>Provide:</Text>
       <Text style={[styles.questionText, { fontWeight: 400 }, { fontSize: 18 }, { marginTop: 0 } ]}>10 Tablets Zinc</Text>
       <View>
-      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('Yes')}>
+      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('Given')}>
   <Text style={[styles.modalText, { fontWeight: 'bold' }, { textAlign: 'left' }, {marginBottom: 0}]}>Given</Text>
-  <Checkbox style={styles.checkbox} status={selectedOption === 'Yes' ? 'checked' : 'unchecked'} />
+  <Checkbox style={styles.checkbox} status={selectedOption === 'Given' ? 'checked' : 'unchecked'} />
 </TouchableOpacity>
 
-<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('No')}>
+<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('Not Given')}>
 <Text style={[styles.modalText, { fontWeight: 'bold' }, { textAlign: 'left' }, {marginBottom: 0}]}>Not Given</Text>
-  <Checkbox style={styles.checkbox} status={selectedOption === 'No' ? 'checked' : 'unchecked'} />
+  <Checkbox style={styles.checkbox} status={selectedOption === 'Not Given' ? 'checked' : 'unchecked'} />
 </TouchableOpacity>
 <TextInput style={styles.input} value={inputText} onChangeText={handleInputChange} placeholder="Other..."/>
 <Text style={styles.explain} onPress={showExplanationAlertTreatment2}>[Explain why I am being recommended this treatment.]</Text>

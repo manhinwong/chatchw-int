@@ -4,11 +4,22 @@ import { Checkbox } from 'react-native-paper';
 import ProgressBar from './components/progressbar'
 
 
-const Treatment1 = ({navigation}) => {
+const Question7 = ({navigation}) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [inputText, setInputText] = useState('');
   const [error, setError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+
+  const showExplanationAlert = () => {
+    Alert.alert(
+      "Explanation",
+      "Dehydration can occur due to fluid loss in diarrhea, which can be potentially dangerous.",
+      [
+        { text: "OK" }
+      ],
+      { cancelable: false }
+    );
+  };
 
   const handleCheckboxChange = (value) => {
     // Toggle the selected option if it is already selected
@@ -16,23 +27,12 @@ const Treatment1 = ({navigation}) => {
     setInputText(''); // Reset input text when selecting a checkbox
 };
 
-const showExplanationAlertTreatment1 = () => {
-  Alert.alert(
-    "Explanation",
-    "ORS (Oral Rehydration Solution) helps replenish fluids and electrolytes lost during diarrhea with fever, preventing dehydration.",
-    [
-      { text: "OK" }
-    ],
-    { cancelable: false }
-  );
-};
-
 const handleClick = () => {
     let output = selectedOption || inputText;
   
     if (output) {
       setError('');
-      navigation.navigate('Treatment2');
+      navigation.navigate('DiagnosisResult');
     } else {
       setError('Please select a checkbox or enter additional information.');
     }
@@ -44,7 +44,7 @@ const handleClick = () => {
 
   return (
     <View style={styles.container}>
-    <ProgressBar progress={77} />
+    <ProgressBar progress={63} />
     {/* Modal */}
     <Modal animationType="slide" transparent={true} visible={modalVisible}onRequestClose={() => {
     Alert.alert('Modal has been closed.');
@@ -85,20 +85,24 @@ const handleClick = () => {
             source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png'}}/>
     </Pressable>
 
-      <Text style={styles.questionText}>Provide:</Text>
-      <Text style={[styles.questionText, { fontWeight: 400 }, { fontSize: 18 }, { marginTop: 0 } ]}>2 Sachets ORS</Text>
+      <Text style={styles.questionText}>Is The Patient Dehydrated?</Text>
+      <Text style={[styles.questionText, { fontWeight: 400 }, { fontSize: 18 }, { marginTop: 0 } ]}>Please select from the options below.</Text>
       <View>
-      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('Given')}>
-  <Text style={[styles.modalText, { fontWeight: 'bold' }, { textAlign: 'left' }, {marginBottom: 0}]}>Given</Text>
-  <Checkbox style={styles.checkbox} status={selectedOption === 'Given' ? 'checked' : 'unchecked'} />
+      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('Yes')}>
+  <Text style={[styles.modalText, { fontWeight: 'bold' }, { textAlign: 'left' }, {marginBottom: 0}]}>Yes</Text>
+  <Checkbox style={styles.checkbox} status={selectedOption === 'Yes' ? 'checked' : 'unchecked'} />
 </TouchableOpacity>
 
-<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('Not Given')}>
-<Text style={[styles.modalText, { fontWeight: 'bold' }, { textAlign: 'left' }, {marginBottom: 0}]}>Not Given</Text>
-  <Checkbox style={styles.checkbox} status={selectedOption === 'Not Given' ? 'checked' : 'unchecked'} />
+<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('No')}>
+<Text style={[styles.modalText, { fontWeight: 'bold' }, { textAlign: 'left' }, {marginBottom: 0}]}>No</Text>
+  <Checkbox style={styles.checkbox} status={selectedOption === 'No' ? 'checked' : 'unchecked'} />
+</TouchableOpacity>
+<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange("Don't Know")}>
+<Text style={[styles.modalText, { fontWeight: 'bold' }, { textAlign: 'left' }, {marginBottom: 0}]}>Don't Know</Text>
+  <Checkbox style={styles.checkbox} status={selectedOption === "Don't Know" ? 'checked' : 'unchecked'} />
 </TouchableOpacity>
 <TextInput style={styles.input} value={inputText} onChangeText={handleInputChange} placeholder="Other..."/>
-<Text style={styles.explain} onPress={showExplanationAlertTreatment1}>[Explain why I am being recommended this treatment.]</Text>
+<Text style={styles.explain} onPress={showExplanationAlert}>[Tell me more about this exam.]</Text>
 
 {error ? <Text style={styles.errorText}>{error}</Text> : null}
 <TouchableOpacity onPress={handleClick} style={styles.button}>
@@ -110,7 +114,7 @@ const handleClick = () => {
   );
 }
 
-export default Treatment1;
+export default Question7;
 
 
 const styles = StyleSheet.create({
@@ -125,11 +129,11 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontSize: 20,
     marginTop: 7,
-    marginStart: 20,
+    marginStart: 10,
     alignSelf: 'flex-start',
   },
     input: { 
-      height: 40, 
+      height: 50, 
       borderColor: 'black', 
       borderWidth: 1, 
       paddingHorizontal: 10, 
@@ -140,7 +144,7 @@ const styles = StyleSheet.create({
       paddingVertical: 15, 
       paddingHorizontal: 25, 
       alignSelf: 'center', 
-      marginTop: 240, 
+      marginTop: 180, 
       width: 350,
     }, 
     buttonText: { fontSize: 20, color: 'white', fontWeight: 'bold', textAlign: 'center'}, 

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-web';
+import { Modal, View, Text, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
 
 const CustomModal = ({ modalVisible, setModalVisible, navigation }) => {
   return (

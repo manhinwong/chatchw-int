@@ -1,40 +1,126 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-const App = () => {
-  const [shadowOpacity, setShadowOpacity] = useState(0.5);
+const GenderButton = ({ selectedOption, setSelectedOption }) => {
+  const [maleShadowOpacity, setMaleShadowOpacity] = useState(0);
+  const [femaleShadowOpacity, setFemaleShadowOpacity] = useState(0);
+  const [nonbinaryShadowOpacity, setNonbinaryShadowOpacity] = useState(0);
 
-  const handleClick = () => {
-    setShadowOpacity(shadowOpacity === 0.5 ? 0.8 : 0.5);
+  const handleMaleClick = () => {
+    setMaleShadowOpacity(maleShadowOpacity === 0.95 ? 0 : 0.95);
+    setFemaleShadowOpacity(0);
+    setNonbinaryShadowOpacity(0);
+    setSelectedOption('Male');
   };
+
+  const handleFemaleClick = () => {
+    setFemaleShadowOpacity(femaleShadowOpacity === 0.95 ? 0 : 0.95);
+    setMaleShadowOpacity(0);
+    setNonbinaryShadowOpacity(0);
+    setSelectedOption('Female');
+  };
+
+  const handleNonbinaryClick = () => {
+    setNonbinaryShadowOpacity(nonbinaryShadowOpacity === 0.95 ? 0 : 0.95);
+    setMaleShadowOpacity(0);
+    setFemaleShadowOpacity(0);
+    setSelectedOption('Nonbinary');
+  };
+
+  const handleReset = () => { if 
+    (maleShadowOpacity === 0 && 
+      femaleShadowOpacity === 0 && 
+      nonbinaryShadowOpacity === 0) 
+      { setSelectedOption(''); } };
 
   const buttonStyle = {
     width: 150,
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#3498DB',
+    backgroundColor: 'white',
     borderRadius: 10,
     elevation: 5,
-    shadowOpacity: shadowOpacity,
+  };
+
+  const nonbinarybuttonStyle = {
+    width: 350,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    elevation: 5,
   };
 
   return (
-    <Pressable
-      style={buttonStyle}
-      onPress={handleClick}
-      android_ripple={{ color: 'lightgrey' }}
-    >
-      <Text style={styles.text}>Click Me</Text>
-    </Pressable>
+    <View style={styles.container}>
+      <View style={styles.buttonContainer}>
+        <Pressable
+          style={{ ...buttonStyle, shadowOpacity: maleShadowOpacity, marginRight: 20 }}
+          onPress={handleMaleClick}
+          android_ripple={{ color: 'lightgrey' }}
+        >
+          <Text style={styles.text}>Male</Text>
+        </Pressable>
+
+        <Pressable
+          style={{ ...buttonStyle, shadowOpacity: femaleShadowOpacity, marginLeft: 20 }}
+          onPress={handleFemaleClick}
+          android_ripple={{ color: 'lightgrey' }}
+        >
+          <Text style={styles.text}>Female</Text>
+        </Pressable>
+      </View>
+
+      <View style={styles.nonbinaryContainer}>
+        <Pressable
+          style={{ ...nonbinarybuttonStyle, shadowOpacity: nonbinaryShadowOpacity }}
+          onPress={handleNonbinaryClick}
+          android_ripple={{ color: 'lightgrey' }}
+        >
+          <Text style={styles.nonbinaryText}>Nonbinary</Text>
+        </Pressable>
+      </View>
+      {handleReset()}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 10,
+  },
   text: {
-    color: 'white',
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
     fontSize: 16,
+    borderWidth: 1,
+    width: 150,
+    padding: 14,
+    borderRadius: 10,
+  },
+  nonbinaryContainer: {
+    marginTop: 5,
+  },
+  nonbinaryText: {
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 16,
+    borderWidth: 1,
+    width: 350,
+    padding: 14,
+    borderRadius: 10,
   },
 });
 
-export default App;
+export default GenderButton;

@@ -7,7 +7,7 @@ export default function Home({ navigation }) {
     <View style={globalStyles.container}>
       <Text style={globalStyles.titleText}>Hello,</Text>
       <Text style={globalStyles.subtitleText}>How can I help you today?</Text>
-      <TouchableOpacity style={globalStyles.button} onPress={() => navigation.navigate('DiagnosisInterface')}>
+      <TouchableOpacity style={globalStyles.button} onPress={() => navigation.navigate('Question1')}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Image style={globalStyles.tinyLogo}
             source={{uri: 'https://cdn-icons-png.flaticon.com/512/9259/9259956.png'}}/>
