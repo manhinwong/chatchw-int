@@ -2,16 +2,22 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
 import { globalStyles } from '../styles/global';
 import ProgressBar from './components/progressbar'
+import { useNavigation } from "@react-navigation/native";
+
 
 const Feedback = ({ navigation }) => {
   const [inputText, setInputText] = useState("");
   const handleInputChange = (text) => {
     setInputText(text);
   }
-
+  const nav = useNavigation();
+  
   return (
     <View style={globalStyles.container}>
       <ProgressBar progress={100} />
+      {/* <Pressable style={[styles.modalButton, styles.buttonOpen, {marginHorizontal: 330}]} onPress={() => nav.goBack()}>
+        <Image style={styles.image} source={{uri: 'https://static.vecteezy.com/system/resources/previews/023/790/858/original/left-arrow-icon-clipart-free-free-png.png'}}/>
+      </Pressable> */}
       <Text style={[globalStyles.titleText,{marginTop: 30}]}>Thank You!</Text>
       <Text style={globalStyles.subtitleText}>Thanks for taking the time to use ChatCHW.</Text>
       <Text style={globalStyles.subtitleText}>If you have suggestions or feedback to improve this app, please add it below.</Text>
@@ -36,11 +42,11 @@ export default Feedback;
 
 const styles = StyleSheet.create({
   input: { 
-    height: 350, 
+    height: 300, 
     borderColor: 'black', 
     borderWidth: 1, 
     paddingHorizontal: 10, 
-    paddingBottom: 300,
+    paddingBottom: 30,
     marginBottom: 10, 
     marginTop: 10, 
     width: 370, 

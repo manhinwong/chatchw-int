@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet, Alert, TouchableOpacity, TextInput, Pressable, Modal, Image } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 import ProgressBar from './components/progressbar'
-
+import { useNavigation } from "@react-navigation/native";
 
 const Question5 = ({navigation}) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [inputText, setInputText] = useState('');
   const [error, setError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const nav = useNavigation();
 
   const handleCheckboxChange = (value) => {
     // Toggle the selected option if it is already selected
@@ -73,6 +74,9 @@ const handleClick = () => {
     <Image style={styles.image}
             source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png'}}/>
     </Pressable>
+    {/* <Pressable style={[styles.modalButton, styles.buttonOpen, {marginHorizontal: 330}]} onPress={() => nav.goBack()}>
+        <Image style={styles.image} source={{uri: 'https://static.vecteezy.com/system/resources/previews/023/790/858/original/left-arrow-icon-clipart-free-free-png.png'}}/>
+      </Pressable> */}
 
       <Text style={styles.questionText}>Is There Blood In The Diarrhea?</Text>
       <Text style={[styles.questionText, { fontWeight: 400 }, { fontSize: 18 }, { marginTop: 0 } ]}>Please select from the options below.</Text>
@@ -132,7 +136,7 @@ const styles = StyleSheet.create({
       paddingVertical: 15, 
       paddingHorizontal: 25, 
       alignSelf: 'center', 
-      marginTop: 180, 
+      marginTop: 150, 
       width: 350,
     }, 
     buttonText: { fontSize: 20, color: 'white', fontWeight: 'bold', textAlign: 'center'}, 

@@ -2,19 +2,15 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet, Alert, TouchableOpacity, TextInput, Pressable, Modal, Image } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 import ProgressBar from './components/progressbar'
-
+import { useNavigation } from "@react-navigation/native";
 
 const Question3 = ({navigation}) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [inputText, setInputText] = useState('');
   const [error, setError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const nav = useNavigation();
 
-  const handleCheckboxChange = (value) => {
-    // Toggle the selected option if it is already selected
-    setSelectedOption((prevSelectedOption) => prevSelectedOption === value ? '' : value);
-    setInputText(''); // Reset input text when selecting a checkbox
-};
 
 const handleClick = () => {
     let output = selectedOption || inputText;
@@ -23,7 +19,7 @@ const handleClick = () => {
       setError('');
       navigation.navigate('Question4');
     } else {
-      setError('Please select a checkbox or enter additional information.');
+      setError('Please enter an input.');
     }
   };
   
@@ -73,20 +69,15 @@ const handleClick = () => {
     <Image style={styles.image}
             source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png'}}/>
     </Pressable>
+    {/* <Pressable style={[styles.modalButton, styles.buttonOpen, {marginHorizontal: 330}]} onPress={() => nav.goBack()}>
+        <Image style={styles.image} source={{uri: 'https://static.vecteezy.com/system/resources/previews/023/790/858/original/left-arrow-icon-clipart-free-free-png.png'}}/>
+      </Pressable> */}
 
       <Text style={styles.questionText}>What Brings The Patient Here?</Text>
       <Text style={[styles.questionText, { fontWeight: 400 }, { fontSize: 18 }, { marginTop: 0 } ]}>Please select from the options below.</Text>
       <View>
-      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('Yes')}>
-  <Text style={[styles.modalText, { fontWeight: 'bold' }, { textAlign: 'left' }, {marginBottom: 0}]}>Diarrhea</Text>
-  <Checkbox style={styles.checkbox} status={selectedOption === 'Yes' ? 'checked' : 'unchecked'} />
-</TouchableOpacity>
-
-<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('No')}>
-<Text style={[styles.modalText, { fontWeight: 'bold' }, { textAlign: 'left' }, {marginBottom: 0}]}>Diarrhea with Fever</Text>
-  <Checkbox style={styles.checkbox} status={selectedOption === 'No' ? 'checked' : 'unchecked'} />
-</TouchableOpacity>
-<TextInput style={styles.input} value={inputText} onChangeText={handleInputChange} placeholder="Other..."/>
+      
+<TextInput style={styles.input} value={inputText} onChangeText={handleInputChange} placeholder="..." autoFocus={true}/>
 
 {error ? <Text style={styles.errorText}>{error}</Text> : null}
 <TouchableOpacity onPress={handleClick} style={styles.button}>
@@ -109,13 +100,6 @@ const styles = StyleSheet.create({
       marginBottom: 20, 
       marginRight: 50,
   }, 
-  explain: {
-    lineHeight: 20,
-    fontSize: 20,
-    marginTop: 7,
-    marginStart: 20,
-    alignSelf: 'flex-start',
-  },
     input: { 
       height: 50, 
       borderColor: 'black', 
@@ -128,7 +112,7 @@ const styles = StyleSheet.create({
       paddingVertical: 15, 
       paddingHorizontal: 25, 
       alignSelf: 'center', 
-      marginTop: 180, 
+      marginTop: 330, 
       width: 350,
     }, 
     buttonText: { fontSize: 20, color: 'white', fontWeight: 'bold', textAlign: 'center'}, 

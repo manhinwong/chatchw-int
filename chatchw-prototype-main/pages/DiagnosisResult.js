@@ -2,9 +2,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, Modal, Alert, Pressable, Image} from 'react-native';
 import ProgressBar from './components/progressbar';
+import { useNavigation } from "@react-navigation/native";
 
 const DiagnosisResult = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const nav = useNavigation();
   
   const showExplanationAlert = () => {
     Alert.alert(
@@ -68,11 +70,18 @@ const DiagnosisResult = ({ navigation }) => {
     <Image style={styles.image}
             source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png'}}/>
     </Pressable>
+    {/* <Pressable style={[styles.modalButton, styles.buttonOpen, {marginHorizontal: 330}]} onPress={() => nav.goBack()}>
+        <Image style={styles.image} source={{uri: 'https://static.vecteezy.com/system/resources/previews/023/790/858/original/left-arrow-icon-clipart-free-free-png.png'}}/>
+      </Pressable> */}
 
       <Text style={styles.resultTitle}>The patient appears to have...</Text>
       <Text style={styles.result}>Diarrhea with Fever</Text>
+      <TouchableOpacity onPress={showExplanationAlert} style={[styles.nextButton, {marginTop: 10, backgroundColor: "grey"}]}>
       <Text style={styles.explain} onPress={showExplanationAlert}>[Explain why I am given this diagnosis]</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={showExplanationAlert} style={[styles.nextButton, {marginTop: 10, backgroundColor: "grey"}]}>
       <Text style={styles.explain} onPress={showExplanationAlert2}>[Explain how to prevent it]</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate('Treatment1')}>
       <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>
@@ -92,9 +101,12 @@ const styles = StyleSheet.create({
   },
   resultTitle: {
     verticalAlign: 'top',
+    alignSelf: 'flex-start',
     fontWeight: 'bold',
     fontSize: 25,
     marginTop: 100,
+    marginStart: 12,
+
   },
   result: {
     lineHeight: 20,
@@ -106,18 +118,17 @@ const styles = StyleSheet.create({
   },
   explain: {
     lineHeight: 20,
-    fontSize: 20,
+    fontSize: 18,
     marginTop: 7,
     marginStart: 15,
     alignSelf: 'flex-start',
   },
   nextButton: {
-    padding: 10,
-    marginTop: 450,
+    marginTop: 320,
     backgroundColor: '#14B8A6', 
       borderRadius: 10, 
       paddingVertical: 15, 
-      paddingHorizontal: 25, 
+      paddingHorizontal: 5, 
       alignSelf: 'center', 
       width: 350
 },

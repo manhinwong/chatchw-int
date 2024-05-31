@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, Alert, TouchableOpacity, TextInput, Pressable, Modal, Image } from 'react-native';
 import ProgressBar from './components/progressbar';
-import WheelPicker from './components/wheelpicker';
+import WheelPicker from './components/wheelpickers/wheelpicker';
 import GenderButton from './components/genderbutton';
+import { useNavigation } from "@react-navigation/native";
 
 const Question1 = ({navigation}) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [error, setError] = useState('');
   const [ageValue, setAgeValue] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const nav = useNavigation();
 
   const handleClick = () => {
     let output = selectedOption && ageValue;
+
+
   
     if (output) {
       setError('');
@@ -51,9 +55,16 @@ const Question1 = ({navigation}) => {
         </View>
       </Modal>
 
+            
+
+
       <Pressable style={[styles.modalButton, styles.buttonOpen]} onPress={() => setModalVisible(true)}>
         <Image style={styles.image} source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png'}}/>
       </Pressable>
+
+      {/* <Pressable style={[styles.modalButton, styles.buttonOpen, {marginHorizontal: 330}]} onPress={() => nav.goBack()}>
+        <Image style={styles.image} source={{uri: 'https://static.vecteezy.com/system/resources/previews/023/790/858/original/left-arrow-icon-clipart-free-free-png.png'}}/>
+      </Pressable> */}
 
       <Text style={styles.questionText}>What Is The Patient’s Sex?:</Text>
       <Text style={[styles.questionText, { fontWeight: 400 }, { fontSize: 18 }, { marginTop: 0, marginBottom: -50 } ]}>Please select from the options below.</Text>
@@ -99,7 +110,7 @@ const styles = StyleSheet.create({
       paddingVertical: 15, 
       paddingHorizontal: 25, 
       alignSelf: 'center', 
-      marginTop: 150, 
+      marginTop: 120, 
       width: 350,
     }, 
     buttonText: { fontSize: 20, color: 'white', fontWeight: 'bold', textAlign: 'center'}, 

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet, Alert, TouchableOpacity, TextInput, Pressable, Modal, Image } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 import ProgressBar from './components/progressbar'
-import WheelPickerTemp from './components/wheelpickerTemp';
-
+import WheelPickerTemp from './components/wheelpickers/wheelpickerTemp';
+import { useNavigation } from "@react-navigation/native";
 
 const Question4 = ({navigation}) => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -11,6 +11,7 @@ const Question4 = ({navigation}) => {
   const [error, setError] = useState('');
   const [TempValue, setTempValue] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const nav = useNavigation();
 
   const handleCheckboxChange = (value) => {
     // Toggle the selected option if it is already selected
@@ -75,6 +76,9 @@ const handleClick = () => {
     <Image style={styles.image}
             source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png'}}/>
     </Pressable>
+    {/* <Pressable style={[styles.modalButton, styles.buttonOpen, {marginHorizontal: 330}]} onPress={() => nav.goBack()}>
+        <Image style={styles.image} source={{uri: 'https://static.vecteezy.com/system/resources/previews/023/790/858/original/left-arrow-icon-clipart-free-free-png.png'}}/>
+      </Pressable> */}
 
       <Text style={styles.questionText}>Does The Patient Have a Fever?</Text>
       <Text style={[styles.questionText, { fontWeight: 400 }, { fontSize: 18 }, { marginTop: 0 } ]}>Please select from the options below.</Text>
@@ -84,7 +88,7 @@ const handleClick = () => {
   <Checkbox style={styles.checkbox} status={selectedOption === 'Yes, by Feeling' ? 'checked' : 'unchecked'} />
 </TouchableOpacity>
 
-<WheelPickerTemp setTempValue={setTempValue}/>
+{/* <WheelPickerTemp setTempValue={setTempValue}/> */}
 
 
 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('No')}>
@@ -138,7 +142,7 @@ const styles = StyleSheet.create({
       paddingVertical: 15, 
       paddingHorizontal: 25, 
       alignSelf: 'center', 
-      marginTop: 110, 
+      marginTop: 150, 
       width: 350,
     }, 
     buttonText: { fontSize: 20, color: 'white', fontWeight: 'bold', textAlign: 'center'}, 

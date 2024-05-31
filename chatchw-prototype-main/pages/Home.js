@@ -1,8 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import { globalStyles } from '../styles/global';
+import { useNavigation } from "@react-navigation/native";
 
-export default function Home({ navigation }) {
+
+
+const Home = ({navigation}) => {
+  const nav = useNavigation();
   return (
     <View style={globalStyles.container}>
       <Text style={globalStyles.titleText}>Hello,</Text>
@@ -19,11 +23,17 @@ export default function Home({ navigation }) {
           </View>
         </View>
       </TouchableOpacity>
+      <View style={globalStyles.buttoncontainer}>
       <TouchableOpacity style={globalStyles.changelanguage}>
           <Text style={globalStyles.text}>Change Language</Text>
       </TouchableOpacity>
+      {/* <TouchableOpacity style={globalStyles.logout} onPress={() => nav.replace('Login')}>
+      <Text style={[globalStyles.text, {textAlign: 'right', margin: 30}]}>Log Out</Text>
+      </TouchableOpacity> */}
+    </View>
     </View>
   );
 }
 
+export default Home;
 

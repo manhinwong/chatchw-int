@@ -27,20 +27,30 @@ const GenderButton = ({ selectedOption, setSelectedOption }) => {
     setSelectedOption('Nonbinary');
   };
 
-  const handleReset = () => { if 
-    (maleShadowOpacity === 0 && 
-      femaleShadowOpacity === 0 && 
-      nonbinaryShadowOpacity === 0) 
-      { setSelectedOption(''); } };
+  const handleReset = () => {
+    if (maleShadowOpacity === 0 && femaleShadowOpacity === 0 && nonbinaryShadowOpacity === 0) {
+      setSelectedOption('');
+    }
+  };
 
-  const buttonStyle = {
+  const malebuttonStyle = {
     width: 150,
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
     borderRadius: 10,
     elevation: 5,
+    backgroundColor: maleShadowOpacity === 0.95 ? 'grey' : 'white',
+  };
+
+  const femalebuttonStyle = {
+    width: 150,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    elevation: 5,
+    backgroundColor: femaleShadowOpacity === 0.95 ? 'grey' : 'white',
   };
 
   const nonbinarybuttonStyle = {
@@ -48,16 +58,16 @@ const GenderButton = ({ selectedOption, setSelectedOption }) => {
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
     borderRadius: 10,
     elevation: 5,
+    backgroundColor: nonbinaryShadowOpacity === 0.95 ? 'grey' : 'white',
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <Pressable
-          style={{ ...buttonStyle, shadowOpacity: maleShadowOpacity, marginRight: 20 }}
+          style={{ ...malebuttonStyle, shadowOpacity: maleShadowOpacity, marginRight: 20 }}
           onPress={handleMaleClick}
           android_ripple={{ color: 'lightgrey' }}
         >
@@ -65,12 +75,13 @@ const GenderButton = ({ selectedOption, setSelectedOption }) => {
         </Pressable>
 
         <Pressable
-          style={{ ...buttonStyle, shadowOpacity: femaleShadowOpacity, marginLeft: 20 }}
+          style={{ ...femalebuttonStyle, shadowOpacity: femaleShadowOpacity, marginLeft: 20 }}
           onPress={handleFemaleClick}
           android_ripple={{ color: 'lightgrey' }}
         >
           <Text style={styles.text}>Female</Text>
         </Pressable>
+
       </View>
 
       <View style={styles.nonbinaryContainer}>
@@ -86,6 +97,7 @@ const GenderButton = ({ selectedOption, setSelectedOption }) => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

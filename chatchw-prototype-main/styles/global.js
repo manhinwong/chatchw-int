@@ -37,6 +37,15 @@ export const globalStyles = StyleSheet.create({
     borderBottomRightRadius: 20,
     marginTop: 20,
   },
+  buttonselected: {
+    backgroundColor: 'grey',
+    borderWidth: 2,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    marginTop: 20,
+  },
   tinyLogo: {
     width: 50,
     height: 50,
@@ -44,18 +53,34 @@ export const globalStyles = StyleSheet.create({
     marginVertical: 10,
     alignSelf: 'center',
   },
-  changelanguage: {
-      padding: 10,
-      marginTop: 500,
-      alignItems: 'flex-start',
-      borderWidth: 1,
-      borderColor: 'black',
-      width: 140,
-      borderTopLeftRadius: 20,
-      borderTopRightRadius: 20,
-      borderBottomLeftRadius: 20,
-      borderBottomRightRadius: 20,
+  buttoncontainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  
-
+  changelanguage: {
+    padding: 10,
+    marginTop: 400,
+    alignItems: 'flex-start',
+    borderWidth: 1,
+    borderColor: 'black',
+    width: 140,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  logout: {
+    padding: 10,
+    height: 50,
+    marginTop: 400,
+    alignItems: 'flex-end',
+    borderWidth: 1,
+    borderColor: 'black',
+    width: 140,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
 });
+

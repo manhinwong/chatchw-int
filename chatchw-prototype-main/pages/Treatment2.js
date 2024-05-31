@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet, Alert, TouchableOpacity, TextInput, Pressable, Modal, Image } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 import ProgressBar from './components/progressbar'
+import { useNavigation } from "@react-navigation/native";
+
 
 
 const Treatment2 = ({navigation}) => {
@@ -9,6 +11,7 @@ const Treatment2 = ({navigation}) => {
   const [inputText, setInputText] = useState('');
   const [error, setError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const nav = useNavigation();
 
   const handleCheckboxChange = (value) => {
     // Toggle the selected option if it is already selected
@@ -84,9 +87,13 @@ const handleClick = () => {
     <Image style={styles.image}
             source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png'}}/>
     </Pressable>
+    {/* <Pressable style={[styles.modalButton, styles.buttonOpen, {marginHorizontal: 330}]} onPress={() => nav.goBack()}>
+        <Image style={styles.image} source={{uri: 'https://static.vecteezy.com/system/resources/previews/023/790/858/original/left-arrow-icon-clipart-free-free-png.png'}}/>
+      </Pressable> */}
 
       <Text style={styles.questionText}>Provide:</Text>
       <Text style={[styles.questionText, { fontWeight: 400 }, { fontSize: 18 }, { marginTop: 0 } ]}>10 Tablets Zinc</Text>
+      <Text style={[styles.questionText, { fontWeight: 400 }, { fontSize: 18 }, { marginTop: 0 } ]}>Give the person the 10 tablets of zinc to take with water. You can give them one tablet at a time or all at once, depending on their preference and ability to swallow.</Text>
       <View>
       <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('Given')}>
   <Text style={[styles.modalText, { fontWeight: 'bold' }, { textAlign: 'left' }, {marginBottom: 0}]}>Given</Text>
@@ -98,8 +105,9 @@ const handleClick = () => {
   <Checkbox style={styles.checkbox} status={selectedOption === 'Not Given' ? 'checked' : 'unchecked'} />
 </TouchableOpacity>
 <TextInput style={styles.input} value={inputText} onChangeText={handleInputChange} placeholder="Other..."/>
-<Text style={styles.explain} onPress={showExplanationAlertTreatment2}>[Explain why I am being recommended this treatment.]</Text>
-
+<TouchableOpacity onPress={showExplanationAlertTreatment2} style={[styles.button, {marginTop: 10, backgroundColor: "grey", paddingVertical: 13}]}>
+<Text style={styles.explain}>[Explain why I am being recommended this treatment.]</Text>
+</TouchableOpacity>
 {error ? <Text style={styles.errorText}>{error}</Text> : null}
 <TouchableOpacity onPress={handleClick} style={styles.button}>
   <Text style={styles.buttonText}>Next</Text>
@@ -115,7 +123,7 @@ export default Treatment2;
 
 const styles = StyleSheet.create({
     container: { flex: 1, justifyContent: 'top', alignItems: 'left', padding: 10, backgroundColor: 'white'},
-    questionText: { fontSize: 25, fontWeight: 'bold', marginBottom: 20, marginTop: 100, marginLeft: 10, textAlignVertical: 'top'}, 
+    questionText: { fontSize: 25, fontWeight: 'bold', marginBottom: 20, marginTop: 90, marginLeft: 10, textAlignVertical: 'top'}, 
     checkbox: { 
       alignSelf: 'flex-end',
       marginBottom: 20, 
@@ -123,10 +131,11 @@ const styles = StyleSheet.create({
   }, 
   explain: {
     lineHeight: 20,
-    fontSize: 20,
+    fontSize: 12,
     marginTop: 7,
     marginStart: 20,
     alignSelf: 'flex-start',
+    fontWeight: 'bold',
   },
     input: { 
       height: 40, 
@@ -138,9 +147,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#14B8A6', 
       borderRadius: 10, 
       paddingVertical: 15, 
-      paddingHorizontal: 25, 
       alignSelf: 'center', 
-      marginTop: 240, 
+      marginTop: 70, 
       width: 350,
     }, 
     buttonText: { fontSize: 20, color: 'white', fontWeight: 'bold', textAlign: 'center'}, 

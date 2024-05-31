@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet, Alert, TouchableOpacity, TextInput, Pressable, Modal, Image } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 import ProgressBar from './components/progressbar'
+import { useNavigation } from "@react-navigation/native";
 
 
 const Question7 = ({navigation}) => {
@@ -9,11 +10,12 @@ const Question7 = ({navigation}) => {
   const [inputText, setInputText] = useState('');
   const [error, setError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const nav = useNavigation();
 
   const showExplanationAlert = () => {
     Alert.alert(
       "Explanation",
-      "Dehydration can occur due to fluid loss in diarrhea, which can be potentially dangerous.",
+      "During a dehydration exam, a healthcare provider will typically assess the individual's symptoms (such as dry mouth, dark urine, dizziness, and fatigue), check their vital signs (including blood pressure, heart rate, and temperature), and evaluate their skin turgor (elasticity) and mucous membranes (such as the mouth and eyes).",
       [
         { text: "OK" }
       ],
@@ -84,9 +86,13 @@ const handleClick = () => {
     <Image style={styles.image}
             source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png'}}/>
     </Pressable>
+    {/* <Pressable style={[styles.modalButton, styles.buttonOpen, {marginHorizontal: 330}]} onPress={() => nav.goBack()}>
+        <Image style={styles.image} source={{uri: 'https://static.vecteezy.com/system/resources/previews/023/790/858/original/left-arrow-icon-clipart-free-free-png.png'}}/>
+      </Pressable> */}
 
       <Text style={styles.questionText}>Is The Patient Dehydrated?</Text>
       <Text style={[styles.questionText, { fontWeight: 400 }, { fontSize: 18 }, { marginTop: 0 } ]}>Please select from the options below.</Text>
+
       <View>
       <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('Yes')}>
   <Text style={[styles.modalText, { fontWeight: 'bold' }, { textAlign: 'left' }, {marginBottom: 0}]}>Yes</Text>
@@ -102,8 +108,9 @@ const handleClick = () => {
   <Checkbox style={styles.checkbox} status={selectedOption === "Don't Know" ? 'checked' : 'unchecked'} />
 </TouchableOpacity>
 <TextInput style={styles.input} value={inputText} onChangeText={handleInputChange} placeholder="Other..."/>
-<Text style={styles.explain} onPress={showExplanationAlert}>[Tell me more about this exam.]</Text>
-
+<TouchableOpacity onPress={showExplanationAlert} style={[styles.button, {marginTop: 10, backgroundColor: "grey"}]}>
+  <Text style={styles.explain}>[Tell me more about this exam.]</Text>
+</TouchableOpacity>
 {error ? <Text style={styles.errorText}>{error}</Text> : null}
 <TouchableOpacity onPress={handleClick} style={styles.button}>
   <Text style={styles.buttonText}>Next</Text>
@@ -131,6 +138,7 @@ const styles = StyleSheet.create({
     marginTop: 7,
     marginStart: 10,
     alignSelf: 'flex-start',
+    fontWeight: 'bold',
   },
     input: { 
       height: 50, 
@@ -144,7 +152,7 @@ const styles = StyleSheet.create({
       paddingVertical: 15, 
       paddingHorizontal: 25, 
       alignSelf: 'center', 
-      marginTop: 180, 
+      marginTop: 80, 
       width: 350,
     }, 
     buttonText: { fontSize: 20, color: 'white', fontWeight: 'bold', textAlign: 'center'}, 
