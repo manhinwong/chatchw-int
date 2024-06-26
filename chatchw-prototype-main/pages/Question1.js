@@ -28,41 +28,45 @@ const Question1 = ({navigation}) => {
     <View style={styles.container}>
       <ProgressBar progress={9} />
       {/* Modal */}
-      <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
-        setModalVisible(!modalVisible);
-      }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Are you sure you want to return to the main menu?</Text>
-            <Pressable style={[styles.modalButton, styles.buttonClose, { backgroundColor: 'transparent', paddingTop: 10 }]} onPress={() => {
-              // Handle "Yes" button press
-              // Add your logic for "Yes" here
-              setModalVisible(!modalVisible);
+      <Modal animationType="slide" transparent={true} visible={modalVisible}onRequestClose={() => {
+    Alert.alert('Modal has been closed.');
+    setModalVisible(!modalVisible);
+  }}>
+    <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+        <Text style={styles.modalText}>Are you sure you want to return to the main menu?</Text>
+        <Pressable
+            style={[styles.modalButton, styles.buttonClose, { backgroundColor: 'transparent', paddingTop: 10 }]}
+            onPress={() => {
+            // Handle "Yes" button press
+            // Add your logic for "Yes" here
+            setModalVisible(!modalVisible);
             }}>
-              <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate('Home')}>
-                <Text style={[styles.modalText, { color: '#FF0000' }]}>Yes, I want to exit this survey.</Text>
-              </TouchableOpacity>
-            </Pressable>
-            <Pressable style={[styles.modalButton, styles.buttonClose, { backgroundColor: 'transparent'}]} onPress={() => {
-              // Handle "No" button press
-              // Add your logic for "No" here
-              setModalVisible(!modalVisible);
+            <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate('Home')}>
+        
+            <Text style={[styles.modalText, { color: '#FF0000' }]}>Yes, I want to exit this survey.</Text>
+            </TouchableOpacity>
+        </Pressable>
+        <Pressable
+            style={[styles.modalButton, styles.buttonClose, { backgroundColor: 'transparent'}]}
+            onPress={() => {
+            // Handle "No" button press
+            // Add your logic for "No" here
+            setModalVisible(!modalVisible);
             }}>
-              <Text style={[styles.modalText, { color: '#007AFF' }]}>No, I want to continue.</Text>
-            </Pressable>
-          </View>
+            <Text style={[styles.modalText, { color: '#007AFF' }]}>No, I want to continue.</Text>
+        </Pressable>
         </View>
-      </Modal>
+    </View>
+    </Modal>
 
-            
-
-
-      <Pressable style={[styles.modalButton, styles.buttonOpen]} onPress={() => setModalVisible(true)}>
-        <Image style={styles.image} source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png'}}/>
-      </Pressable>
-
-      {/* <Pressable style={[styles.modalButton, styles.buttonOpen, {marginHorizontal: 330}]} onPress={() => nav.goBack()}>
+    <Pressable
+    style={[styles.modalButton, styles.buttonOpen]}
+    onPress={() => setModalVisible(true)}>
+    <Image style={styles.image}
+            source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png'}}/>
+    </Pressable>
+    {/* <Pressable style={[styles.modalButton, styles.buttonOpen, {marginHorizontal: 330}]} onPress={() => nav.goBack()}>
         <Image style={styles.image} source={{uri: 'https://static.vecteezy.com/system/resources/previews/023/790/858/original/left-arrow-icon-clipart-free-free-png.png'}}/>
       </Pressable> */}
 

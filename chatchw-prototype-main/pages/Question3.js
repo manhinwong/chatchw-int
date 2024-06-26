@@ -74,7 +74,7 @@ const handleClick = () => {
       </Pressable> */}
 
       <Text style={styles.questionText}>What Brings The Patient Here?</Text>
-      <Text style={[styles.questionText, { fontWeight: 400 }, { fontSize: 18 }, { marginTop: 0 } ]}>Please select from the options below.</Text>
+      <Text style={[styles.questionText, { fontWeight: 400 }, { fontSize: 18 }, { marginTop: 0 } ]}>Please enter an input below.</Text>
       <View>
       
 <TextInput style={styles.input} value={inputText} onChangeText={handleInputChange} placeholder="..." autoFocus={true}/>
