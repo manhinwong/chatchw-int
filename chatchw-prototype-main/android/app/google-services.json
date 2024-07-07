@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "980484168828",
+    "project_id": "chatchw-65b49",
+    "storage_bucket": "chatchw-65b49.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980484168828:android:e99bc7e4b942dc79de3df9",
+        "android_client_info": {
+          "package_name": "berkeley.chatchw"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATlIvTAx1msI53YdCFfJ6Zea1fjTsefSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
