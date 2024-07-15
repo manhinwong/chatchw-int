@@ -11,6 +11,7 @@ import Question4 from './pages/Question4';
 import Question5 from './pages/Question5';
 import Question6 from './pages/Question6';
 import Question7 from './pages/Question7';
+import QuestionsTest from './pages/QuestionsTest';
 import DiagnosisResult from './pages/DiagnosisResult';
 import Treatment1 from './pages/Treatment1'
 import Treatment2 from './pages/Treatment2'
@@ -33,6 +34,7 @@ export default function App() {
         <Stack.Screen name="Question5" component={Question5} />
         <Stack.Screen name="Question6" component={Question6} />
         <Stack.Screen name="Question7" component={Question7} />
+        <Stack.Screen name="QuestionsTest" component={QuestionsTest} />
         <Stack.Screen name="DiagnosisResult" component={DiagnosisResult} />
         <Stack.Screen name="Treatment1" component={Treatment1} />
         <Stack.Screen name="Treatment2" component={Treatment2} />
