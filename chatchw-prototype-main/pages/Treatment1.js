@@ -132,9 +132,9 @@ const styles = StyleSheet.create({
   }, 
   explain: {
     lineHeight: 20,
-    fontSize: 13,
+    fontSize: 12,
     marginTop: 7,
-    marginStart: 20,
+    marginStart: 10,
     alignSelf: 'flex-start',
     fontWeight: 'bold',
   },

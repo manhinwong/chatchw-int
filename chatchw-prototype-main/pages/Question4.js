@@ -88,7 +88,7 @@ const handleClick = () => {
   <Checkbox style={styles.checkbox} status={selectedOption === 'Yes, by Feeling' ? 'checked' : 'unchecked'} />
 </TouchableOpacity>
 
-{/* <WheelPickerTemp setTempValue={setTempValue}/> */}
+<WheelPickerTemp setTempValue={setTempValue}/>
 
 
 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', margin: 10, borderWidth: 1, padding: 5, borderRadius: 10 }} onPress={() => handleCheckboxChange('No')}>

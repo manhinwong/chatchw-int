@@ -114,13 +114,6 @@ const styles = StyleSheet.create({
       marginBottom: 20, 
       marginRight: 50,
   }, 
-  explain: {
-    lineHeight: 20,
-    fontSize: 20,
-    marginTop: 7,
-    marginStart: 20,
-    alignSelf: 'flex-start',
-  },
     input: { 
       height: 50, 
       borderColor: 'black', 

@@ -150,9 +150,9 @@ const styles = StyleSheet.create({
   },
   explain: {
     lineHeight: 20,
-    fontSize: 15,
+    fontSize: 20,
     marginTop: 7,
-    marginStart: 10,
+    marginHorizontal: -10,
     alignSelf: 'flex-start',
     fontWeight: 'bold',
   },

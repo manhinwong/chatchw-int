@@ -42,11 +42,11 @@ export default Feedback;
 
 const styles = StyleSheet.create({
   input: { 
-    height: 300, 
     borderColor: 'black', 
     borderWidth: 1, 
     paddingHorizontal: 10, 
-    paddingBottom: 30,
+    paddingVertical: 10,
+    paddingBottom: 320,
     marginBottom: 10, 
     marginTop: 10, 
     width: 370, 
