@@ -4,6 +4,8 @@ import ProgressBar from './components/progressbar';
 import WheelPicker from './components/wheelpickers/wheelpicker';
 import GenderButton from './components/genderbutton';
 import { useNavigation } from "@react-navigation/native";
+import { Picker } from '@react-native-picker/picker';
+import Dropdown from 'react-dropdown';
 
 const QuestionsTest = ({navigation}) => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -19,6 +21,13 @@ const QuestionsTest = ({navigation}) => {
   const [rounds, setRounds] = useState(0);
   const [listening, setListening] = useState(false);
   const [message, setMessage] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const options = [
+    { value: 'item1', label: 'Item 1' },
+    { value: 'item2', label: 'Item 2' },
+    { value: 'item3', label: 'Item 3' },
+    { value: 'item4', label: 'Item 4' },
+  ];
   const questions_init = [
     {
       question: "What is the patient's sex?",
@@ -35,7 +44,7 @@ const QuestionsTest = ({navigation}) => {
       options: [],
       range: {
         "min": 0,
-        "max": 24
+        "max": 120
       }
     },
     {
@@ -45,6 +54,11 @@ const QuestionsTest = ({navigation}) => {
         {"id": "yes", "text": "Yes"},
         {"id": "no", "text": "No"}
       ]
+    },
+    {
+      question: "What brings the patient here?",
+      type: "FREE",
+      options: []
     }
   ];
   const [questions, setQuestions] = useState(questions_init);
@@ -108,12 +122,40 @@ const QuestionsTest = ({navigation}) => {
           
           <View key={index}>
             <Text style={styles.questionText}>{question.question}</Text>
-            {question.type === "NUM" && (
-              <View>
-              <Text style={[styles.questionText, { fontWeight: 400 }, { fontSize: 18 }, { marginTop: 0, marginBottom: 50 } ]}>Please enter a number below.</Text>
-              <WheelPicker setAgeValue={setAgeValue} />
+            {question.type === 'NUM' && (
+            <View>
+            <Picker
+              onValueChange={(value) => {
+                setCurrentQuestion(question.question);
+                setAnswers({ ...answers, [question.question]: value});
+                console.log(answers);
+              }}
+              style={styles.picker}
+            >
+              {/*Array.from(Array(question.range.max - question.range.min + 1).keys()).map((num) => ({ label: `${num} Years Old`, value: num}))*/}
+              <Picker.Item label="Select" value=""/>
+              {Array.from(Array(question.range.max - question.range.min + 1).keys()).map((item, index) => (
+                <Picker.Item key={index} label={item} value={item} />
+              ))}
+            </Picker>
               </View>
-            )}
+              
+        )}
+
+        {question.type === 'FREE' && (
+              <View>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(value) => {
+                    setCurrentQuestion(question.question);
+                    setAnswers({ ...answers, [question.question]: value});
+                    console.log(answers);
+                  }}
+                  placeholder="Type here"
+                />
+              </View>
+              
+        )}
 
             {question.options.map((option, optionIndex) => (
               <View key={optionIndex}>
@@ -137,7 +179,7 @@ const QuestionsTest = ({navigation}) => {
 
 
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
-        <TouchableOpacity onPress={handleClick} style={styles.button}>
+        <TouchableOpacity onPress={handleClick} style={styles.buttonSelected}>
           <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
       </View>
@@ -184,6 +226,14 @@ const styles = StyleSheet.create({
       backgroundColor: 'gray'
     }, 
     buttonText: { fontSize: 20, color: 'white', fontWeight: 'bold', textAlign: 'center'}, 
+    picker: {
+      width: 150,
+      height: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 10,
+      elevation: 5,
+    },
     errorText: {marginLeft: 15, marginTop: 5, color: 'red', textAlign: 'center', }, 
     // Modal styles
     modalButton: {
