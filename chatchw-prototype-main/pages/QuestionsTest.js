@@ -6,7 +6,7 @@ import GenderButton from './components/genderbutton';
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from '@react-native-picker/picker';
 import Dropdown from 'react-dropdown';
-
+import aiConnect from './components/AIConnection';
 const QuestionsTest = ({navigation}) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [error, setError] = useState('');
@@ -61,20 +61,12 @@ const QuestionsTest = ({navigation}) => {
       options: []
     }
   ];
-  const [questions, setQuestions] = useState(questions_init);
+  let [questions, setQuestions] = useState(questions_init);
 
   const handleClick = () => {
-    let output = selectedOption && ageValue;
-
-
-  
-    if (output) {
-      setError('');
-      navigation.navigate('Question2');
-    } else {
-      setError("Please enter the patient's sex and age.");
-    }
+    let updatedQuestions = aiConnect(answers).then(updatedQuestions => setQuestions(updatedQuestions));
   };
+  
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
@@ -128,7 +120,7 @@ const QuestionsTest = ({navigation}) => {
               onValueChange={(value) => {
                 setCurrentQuestion(question.question);
                 setAnswers({ ...answers, [question.question]: value});
-                console.log(answers);
+                //console.log(answers);
               }}
               style={styles.picker}
             >
@@ -149,7 +141,7 @@ const QuestionsTest = ({navigation}) => {
                   onChangeText={(value) => {
                     setCurrentQuestion(question.question);
                     setAnswers({ ...answers, [question.question]: value});
-                    console.log(answers);
+                    //console.log(answers);
                   }}
                   placeholder="Type here"
                 />
@@ -164,7 +156,7 @@ const QuestionsTest = ({navigation}) => {
                   onPress={() => {
                     setCurrentQuestion(question.question);
                     setAnswers({ ...answers, [question.question]: option.text});
-                    console.log(answers);
+                    //console.log(answers);
                   }}>
                     <Text style={styles.buttonText}>{option.text}</Text>
                 </TouchableOpacity>
