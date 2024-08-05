@@ -44,7 +44,9 @@ const QuestionsTest = ({navigation}) => {
       options: [],
       range: {
         "min": 0,
-        "max": 120
+        "max": 120,
+        "step":1,
+        "unit":"years"
       }
     },
     {
@@ -67,6 +69,16 @@ const QuestionsTest = ({navigation}) => {
     let updatedQuestions = aiConnect(answers).then(updatedQuestions => setQuestions(updatedQuestions));
   };
   
+  function range(start, end, step = 1) {
+    if (step === 0) throw new Error('Step size cannot be zero');
+    if ((end - start) * step < 0) return []; // Returns empty array if step direction is wrong
+  
+    return Array.from(
+      { length: Math.floor((end - start) / step) + 1 },
+      (_, i) => start + i * step
+    );
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
@@ -126,8 +138,8 @@ const QuestionsTest = ({navigation}) => {
             >
               {/*Array.from(Array(question.range.max - question.range.min + 1).keys()).map((num) => ({ label: `${num} Years Old`, value: num}))*/}
               <Picker.Item label="Select" value=""/>
-              {Array.from(Array(question.range.max - question.range.min + 1).keys()).map((item, index) => (
-                <Picker.Item key={index} label={item} value={item} />
+              {range(question.range.min, question.range.max, question.range.step).map((item, index) => (
+                <Picker.Item key={index} label={item + " " + question.range.unit} value={item} />
               ))}
             </Picker>
               </View>
