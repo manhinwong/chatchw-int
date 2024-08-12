@@ -1,6 +1,5 @@
-async function aiConnect(answers) {
+export async function generateQuestion(answers) {
     // Example processing logic
-    console.log(answers);
         while (true) {
         try {
             const response = await fetch(
@@ -25,4 +24,26 @@ async function aiConnect(answers) {
     }
 }
 
-export default aiConnect;
+export async function runDiagnosis(answers) {
+    // Example processing logic
+        try {
+            const response = await fetch(
+                'https://noggin.rea.gent/convenient-shrew-3245',
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer rg_v1_jfl8mk718ooqkv74ajfkzzmjddug9eajoc5g_ngk',
+                  },
+                  body: JSON.stringify({
+                    // fill variables here.
+                    "information": JSON.stringify(answers),
+                  }),
+                }
+              ).then(response => response.text());
+              let result = response;
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+}

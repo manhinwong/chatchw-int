@@ -1,12 +1,13 @@
 // pages/DiagnosisResult.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, Modal, Alert, Pressable, Image} from 'react-native';
 import ProgressBar from './components/progressbar';
 import { useNavigation } from "@react-navigation/native";
-
-const DiagnosisResult = ({ navigation }) => {
+import { runDiagnosis } from './components/AIConnection';
+const DiagnosisResult = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const nav = useNavigation();
+  const  [diagnosisResult, setDiagnosisResult] = useState("");
+  const { answers } = route.params;
   
   const showExplanationAlert = () => {
     Alert.alert(
@@ -28,6 +29,13 @@ const DiagnosisResult = ({ navigation }) => {
       { cancelable: false }
     );
   };
+  const displayResult = () => {
+    runDiagnosis(answers).then(response => {
+      setDiagnosisResult(response);
+      console.log(response);
+    });
+  }
+
   async function sendData() {
     const data = { key: 'value' };
     const response = await fetch('http://127.0.0.1:5000/api/data', {
@@ -86,8 +94,9 @@ const DiagnosisResult = ({ navigation }) => {
         <Image style={styles.image} source={{uri: 'https://static.vecteezy.com/system/resources/previews/023/790/858/original/left-arrow-icon-clipart-free-free-png.png'}}/>
       </Pressable> */}
 
-      <Text style={styles.resultTitle}>The patient appears to have...</Text>
-      <Text style={styles.result}>Diarrhea with Fever</Text>
+      <Text style={styles.resultTitle}>Here is the diagnosis result</Text>
+      <TouchableOpacity onPress={displayResult} style={styles.nextButton}> View </TouchableOpacity>
+      <Text style={styles.result}>{diagnosisResult}</Text>
       <TouchableOpacity onPress={showExplanationAlert} style={[styles.nextButton, {marginTop: 10, backgroundColor: "grey"}]}>
       <Text style={styles.explain} onPress={showExplanationAlert}>[Explain why I am given this diagnosis]</Text>
       </TouchableOpacity>

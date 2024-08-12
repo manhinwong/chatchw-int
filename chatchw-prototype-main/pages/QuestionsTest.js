@@ -6,14 +6,14 @@ import GenderButton from './components/genderbutton';
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from '@react-native-picker/picker';
 import Dropdown from 'react-dropdown';
-import aiConnect from './components/AIConnection';
+import { generateQuestion }  from './components/AIConnection';
 const QuestionsTest = ({navigation}) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [error, setError] = useState('');
   const [ageValue, setAgeValue] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const nav = useNavigation();
-  
+  const LIMIT = 4;
   const [currentQuestion, setCurrentQuestion] = useState("");
   //const [answer, setAnswer] = useState(""); 
   const [textInput, setTextInput] = useState("");
@@ -22,12 +22,6 @@ const QuestionsTest = ({navigation}) => {
   const [listening, setListening] = useState(false);
   const [message, setMessage] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const options = [
-    { value: 'item1', label: 'Item 1' },
-    { value: 'item2', label: 'Item 2' },
-    { value: 'item3', label: 'Item 3' },
-    { value: 'item4', label: 'Item 4' },
-  ];
   const questions_init = [
     {
       question: "What is the patient's sex?",
@@ -66,7 +60,14 @@ const QuestionsTest = ({navigation}) => {
   let [questions, setQuestions] = useState(questions_init);
 
   const handleClick = () => {
-    let updatedQuestions = aiConnect(answers).then(updatedQuestions => setQuestions(updatedQuestions));
+    if (rounds < LIMIT) {
+      setRounds(rounds + 1);
+      let updatedQuestions = generateQuestion(answers).then(updatedQuestions => setQuestions(updatedQuestions));
+    } else {
+      setRounds(0);
+      navigation.navigate('DiagnosisResult', {'answers': answers});
+    }
+    
   };
   
   function range(start, end, step = 1) {
@@ -132,7 +133,6 @@ const QuestionsTest = ({navigation}) => {
               onValueChange={(value) => {
                 setCurrentQuestion(question.question);
                 setAnswers({ ...answers, [question.question]: value});
-                //console.log(answers);
               }}
               style={styles.picker}
             >
@@ -153,7 +153,6 @@ const QuestionsTest = ({navigation}) => {
                   onChangeText={(value) => {
                     setCurrentQuestion(question.question);
                     setAnswers({ ...answers, [question.question]: value});
-                    //console.log(answers);
                   }}
                   placeholder="Type here"
                 />
@@ -168,7 +167,6 @@ const QuestionsTest = ({navigation}) => {
                   onPress={() => {
                     setCurrentQuestion(question.question);
                     setAnswers({ ...answers, [question.question]: option.text});
-                    //console.log(answers);
                   }}>
                     <Text style={styles.buttonText}>{option.text}</Text>
                 </TouchableOpacity>
