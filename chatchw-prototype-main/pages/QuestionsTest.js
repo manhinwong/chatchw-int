@@ -22,6 +22,11 @@ const QuestionsTest = ({navigation}) => {
   const [listening, setListening] = useState(false);
   const [message, setMessage] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const increaseProgress = () => {
+    setProgress(prevProgress => Math.min(prevProgress + 10, 100)); // Increases by 10%, max 100%
+  };
+  
   const questions_init = [
     {
       question: "What is the patient's sex?",
@@ -69,6 +74,12 @@ const QuestionsTest = ({navigation}) => {
     }
     
   };
+
+  const handlePress = () => {
+    increaseProgress();
+    handleClick();
+    
+  };
   
   function range(start, end, step = 1) {
     if (step === 0) throw new Error('Step size cannot be zero');
@@ -83,7 +94,7 @@ const QuestionsTest = ({navigation}) => {
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
-        <ProgressBar progress={9} />
+        <ProgressBar progress={progress} />
         {/* Modal */}
         <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {
           Alert.alert('Modal has been closed.');
@@ -181,7 +192,7 @@ const QuestionsTest = ({navigation}) => {
 
 
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
-        <TouchableOpacity onPress={handleClick} style={styles.buttonSelected}>
+        <TouchableOpacity onPress={handlePress} style={styles.buttonSelected}>
           <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
       </View>
