@@ -7,21 +7,22 @@ import { useNavigation } from "@react-navigation/native";
 import { Picker } from '@react-native-picker/picker';
 import Dropdown from 'react-dropdown';
 import { generateQuestion }  from './components/AIConnection';
-const QuestionsTest = ({navigation}) => {
+const Questions = ({navigation}) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [error, setError] = useState('');
   const [ageValue, setAgeValue] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const nav = useNavigation();
   const LIMIT = 4;
-  const [currentQuestion, setCurrentQuestion] = useState("");
-  //const [answer, setAnswer] = useState(""); 
+  const [progress, setProgress] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState('');
   const [textInput, setTextInput] = useState("");
   const [answers, setAnswers] = useState({});
   const [rounds, setRounds] = useState(0);
   const [listening, setListening] = useState(false);
   const [message, setMessage] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const questions_init = [
     {
       question: "What is the patient's sex?",
@@ -30,6 +31,7 @@ const QuestionsTest = ({navigation}) => {
         {"id": 1, "text": "Male"},
         {"id": 2, "text": "Female"},
         {"id": 3, "text": "Non-binary"},
+        {"id": 4, "text": "Other"}
       ]
     },
     {
@@ -48,7 +50,8 @@ const QuestionsTest = ({navigation}) => {
       type: "YN",
       options: [
         {"id": "yes", "text": "Yes"},
-        {"id": "no", "text": "No"}
+        {"id": "no", "text": "No"},
+        {"id": "not_sure", "text": "Not sure"}
       ]
     },
     {
@@ -61,8 +64,12 @@ const QuestionsTest = ({navigation}) => {
 
   const handleClick = () => {
     if (rounds < LIMIT) {
+      setButtonDisabled(true);
       setRounds(rounds + 1);
-      let updatedQuestions = generateQuestion(answers).then(updatedQuestions => setQuestions(updatedQuestions));
+      let updatedQuestions = generateQuestion(answers).then(updatedQuestions => {
+        setQuestions(updatedQuestions);
+        setButtonDisabled(false);});
+      setProgress((rounds + 1) / LIMIT * 100);
     } else {
       setRounds(0);
       navigation.navigate('DiagnosisResult', {'answers': answers});
@@ -83,7 +90,7 @@ const QuestionsTest = ({navigation}) => {
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
-        <ProgressBar progress={9} />
+        <ProgressBar progress={progress} />
         {/* Modal */}
         <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {
           Alert.alert('Modal has been closed.');
@@ -181,7 +188,7 @@ const QuestionsTest = ({navigation}) => {
 
 
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
-        <TouchableOpacity onPress={handleClick} style={styles.buttonSelected}>
+        <TouchableOpacity onPress={handleClick} style={styles.buttonSelected} disabled={buttonDisabled}>
           <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
       </View>
@@ -192,7 +199,7 @@ const QuestionsTest = ({navigation}) => {
 
 
 
-export default QuestionsTest;
+export default Questions;
 
 
 const styles = StyleSheet.create({

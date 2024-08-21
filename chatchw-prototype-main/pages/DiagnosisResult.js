@@ -6,35 +6,53 @@ import { useNavigation } from "@react-navigation/native";
 import { runDiagnosis } from './components/AIConnection';
 const DiagnosisResult = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const  [diagnosisResult, setDiagnosisResult] = useState("");
+  const  [diagnosisResult, setDiagnosisResult] = useState(null);
+  const  [modalText, setModalText] = useState([]);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [initialized, setInitialized] = useState(false);
   const { answers } = route.params;
-  
-  const showExplanationAlert = () => {
-    Alert.alert(
-      "Explanation",
-      "This could be due to a bacterial or viral gastrointestinal infection.",
-      [
-        { text: "OK" }
-      ],
-      { cancelable: false }
-    );
-  };
-  const showExplanationAlert2 = () => {
-    Alert.alert(
-      "Explanation",
-      "Proper hygiene, safe food/water, and cleanliness help prevent diarrhea with fever.",
-      [
-        { text: "OK" }
-      ],
-      { cancelable: false }
-    );
-  };
-  const displayResult = () => {
+  const getResult = () => {
+    setButtonDisabled(true);
     runDiagnosis(answers).then(response => {
-      setDiagnosisResult(response);
-      console.log(response);
-    });
-  }
+      setDiagnosisResult(JSON.parse(response));
+      setButtonDisabled(false);
+    });}
+
+    if (!initialized) {
+      setInitialized(true);
+      getResult();
+    }
+  
+  const showImmediateActions= () => {
+    if (diagnosisResult === null) {
+      getResult();
+    }
+    setModalText(diagnosisResult["Immediate actions"]);
+    setModalVisible(true);
+  };
+  const showFurtherTreatments = () => {
+    if (diagnosisResult === null) {
+      getResult();
+    }
+    setModalText(diagnosisResult["Further treatments"]);
+    setModalVisible(true);
+  };
+  const showDiagnosis = () => {
+    if (diagnosisResult === null) {
+      getResult();
+    }
+    let texts = [];
+    console.log(diagnosisResult);
+    for (let i = 0; i < diagnosisResult["Health issues"].length; i++) {
+      texts.push("\nPossible issue: ");
+      texts.push(diagnosisResult["Health issues"][i]["Issue"]);
+      texts.push("\nReason: ");
+      texts.push(diagnosisResult["Health issues"][i]["Reason"]);
+    }
+  setModalText(texts);
+  setModalVisible(true);
+  };
+  
 
   async function sendData() {
     const data = { key: 'value' };
@@ -50,7 +68,7 @@ const DiagnosisResult = ({ route, navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <ProgressBar progress={70} />
+      <ProgressBar progress={100} />
      {/* Modal */}
     <Modal animationType="slide" transparent={true} visible={modalVisible}onRequestClose={() => {
     Alert.alert('Modal has been closed.');
@@ -58,19 +76,7 @@ const DiagnosisResult = ({ route, navigation }) => {
   }}>
     <View style={styles.centeredView}>
         <View style={styles.modalView}>
-        <Text style={styles.modalText}>Are you sure you want to return to the main menu?</Text>
-        <Pressable
-            style={[styles.modalButton, styles.buttonClose, { backgroundColor: 'transparent', paddingTop: 10 }]}
-            onPress={() => {
-            // Handle "Yes" button press
-            // Add your logic for "Yes" here
-            setModalVisible(!modalVisible);
-            }}>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
-        
-            <Text style={[styles.modalText, { color: '#FF0000' }]}>Yes, I want to exit this survey.</Text>
-            </TouchableOpacity>
-        </Pressable>
+        <Text style={styles.modalText}>{modalText}</Text>
         <Pressable
             style={[styles.modalButton, styles.buttonClose, { backgroundColor: 'transparent'}]}
             onPress={() => {
@@ -78,7 +84,7 @@ const DiagnosisResult = ({ route, navigation }) => {
             // Add your logic for "No" here
             setModalVisible(!modalVisible);
             }}>
-            <Text style={[styles.modalText, { color: '#007AFF' }]}>No, I want to continue.</Text>
+            <Text style={[styles.modalText, { color: '#007AFF' }]}>Close</Text>
         </Pressable>
         </View>
     </View>
@@ -95,18 +101,20 @@ const DiagnosisResult = ({ route, navigation }) => {
       </Pressable> */}
 
       <Text style={styles.resultTitle}>Here is the diagnosis result</Text>
-      <TouchableOpacity onPress={displayResult} style={styles.nextButton}> View </TouchableOpacity>
-      <Text style={styles.result}>{diagnosisResult}</Text>
-      <TouchableOpacity onPress={showExplanationAlert} style={[styles.nextButton, {marginTop: 10, backgroundColor: "grey"}]}>
-      <Text style={styles.explain} onPress={showExplanationAlert}>[Explain why I am given this diagnosis]</Text>
+      <TouchableOpacity onPress={showDiagnosis} style={styles.nextButton} disabled={buttonDisabled}> 
+        <Text style={styles.nextButtonText}>Issues</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={showExplanationAlert} style={[styles.nextButton, {marginTop: 10, backgroundColor: "grey"}]}>
-      <Text style={styles.explain} onPress={showExplanationAlert2}>[Explain how to prevent it]</Text>
+      <TouchableOpacity onPress={showImmediateActions} style={styles.nextButton} disabled={buttonDisabled}> 
+        <Text style={styles.nextButtonText}>Immediate Actions</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={showFurtherTreatments} style={styles.nextButton} disabled={buttonDisabled}> 
+        <Text style={styles.nextButtonText}>Further Treatments</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.nextButton} onPress={() => {
         sendData();
-        navigation.navigate('Treatment1');}}>
-      <Text style={styles.nextButtonText}>Next</Text>
+        setDiagnosisResult(null);
+        navigation.navigate('Feedback');}}>
+      <Text style={styles.nextButtonText}>Finish</Text>
       </TouchableOpacity>
       
     </View>

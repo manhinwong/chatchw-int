@@ -42,8 +42,12 @@ export async function runDiagnosis(answers) {
                 }
               ).then(response => response.text());
               let result = response;
+              let startIndex = result.indexOf("{");
+              let endIndex = result.lastIndexOf("}");
+              result = result.substring(startIndex, endIndex + 1);
             return result;
         } catch (error) {
             console.log(error);
         }
 }
+

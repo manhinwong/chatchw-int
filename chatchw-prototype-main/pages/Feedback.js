@@ -27,9 +27,6 @@ const Feedback = ({ navigation }) => {
   onChangeText={handleInputChange} 
   placeholder="Feedback and Suggestions..."
 />
-      <TouchableOpacity style={[styles.nextButton, {marginTop: 20}]} onPress={() => navigation.navigate('Question1')}>
-      <Text style={styles.nextButtonText}>New Patient</Text>
-      </TouchableOpacity>
       <TouchableOpacity style={[styles.nextButton, {marginTop: 10}]} onPress={() => navigation.navigate('Home')}>
       <Text style={styles.nextButtonText}>Main Menu</Text>
       </TouchableOpacity>
