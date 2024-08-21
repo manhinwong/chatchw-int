@@ -23,6 +23,10 @@ const Questions = ({navigation}) => {
   const [message, setMessage] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const increaseProgress = () => {
+    setProgress(prevProgress => Math.min(prevProgress + 10, 100)); // Increases by 10%, max 100%
+  };
+  
   const questions_init = [
     {
       question: "What is the patient's sex?",
@@ -74,6 +78,12 @@ const Questions = ({navigation}) => {
       setRounds(0);
       navigation.navigate('DiagnosisResult', {'answers': answers});
     }
+    
+  };
+
+  const handlePress = () => {
+    increaseProgress();
+    handleClick();
     
   };
   
