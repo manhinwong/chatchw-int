@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, Modal, Alert, Pressable, Image} from 'react-native';
 import ProgressBar from './components/progressbar';
 import { useNavigation } from "@react-navigation/native";
-import { runDiagnosis } from './components/AIConnection';
+import { runDiagnosis } from './AIConnection';
 const DiagnosisResult = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const  [diagnosisResult, setDiagnosisResult] = useState(null);

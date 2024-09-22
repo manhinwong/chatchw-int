@@ -6,13 +6,15 @@ import GenderButton from './components/genderbutton';
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from '@react-native-picker/picker';
 import Dropdown from 'react-dropdown';
-import { generateQuestion }  from './components/AIConnection';
+import { generateQuestion }  from './AIConnection';
 const Questions = ({navigation}) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [error, setError] = useState('');
   const [ageValue, setAgeValue] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const nav = useNavigation();
+
+  //This constant is temporary, will connect it with frontend people.
   const LIMIT = 4;
   const [progress, setProgress] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState('');

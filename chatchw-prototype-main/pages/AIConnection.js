@@ -1,8 +1,9 @@
 export async function generateQuestion(answers) {
     // Example processing logic
-        while (true) {
+
         try {
-            const response = await fetch(
+            
+            /*const response = await fetch(
                 'https://noggin.rea.gent/doubtful-urial-3233',
                 {
                 method: 'POST',
@@ -17,11 +18,23 @@ export async function generateQuestion(answers) {
                 }
             ).then(response => response.text());
             let result = JSON.parse(response);
+            return result;*/
+
+            const response = await fetch('http://127.0.0.1:5000/api/endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(answers),
+            });
+            const result = await response.json();
+            console.log(result);
+            console.log('aaa')
             return result;
+
         } catch (error) {
 
         }
-    }
 }
 
 export async function runDiagnosis(answers) {
