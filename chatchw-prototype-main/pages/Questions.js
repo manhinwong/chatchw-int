@@ -52,8 +52,19 @@ const Questions = ({navigation}) => {
       }
     },
     {
-      question: "Is the Patient with a Caregiver?",
-      type: "YN",
+      question: "Who is accompaning the patient?",
+      type: "MCM",
+      options: [
+        {"id": 1, "text": "None"},
+        {"id": 2, "text": "Relatives"},
+        {"id": 3, "text": "Friends"},
+        {"id": 4, "text": "Health workers"},
+        {"id": 5, "text": "Other"}
+      ]
+    },
+    {
+      question: "What symptoms does the patient have?",
+      type: "MCM",
       options: [
         {"id": "yes", "text": "Yes"},
         {"id": "no", "text": "No"},
@@ -179,10 +190,12 @@ const Questions = ({navigation}) => {
               
         )}
 
+        {(question.type === 'MC' || question.type === 'YN') && (
+          <View>
             {question.options.map((option, optionIndex) => (
               <View key={optionIndex}>
                 <TouchableOpacity style={answers[question.question] === option.text ? styles.buttonSelected : styles.buttonUnSelected}
-
+ 
                   onPress={() => {
                     setCurrentQuestion(question.question);
                     setAnswers({ ...answers, [question.question]: option.text});
@@ -193,6 +206,41 @@ const Questions = ({navigation}) => {
                 
               </View>
             ))}
+            </View>
+            )}
+
+        {(question.type === 'MCM') && (
+          <View>
+            {question.options.map((option, optionIndex) => (
+              <View key={optionIndex}>
+                <TouchableOpacity style={answers[question.question] != null && answers[question.question].indexOf(option.text) >= 0 ? styles.buttonSelected : styles.buttonUnSelected}
+ 
+                  onPress={() => {
+                    setCurrentQuestion(question.question);
+                    let answerList = answers[question.question];
+                    try {
+                      answerList.indexOf(option.text);
+                    } catch (e) {
+                      answerList = [];
+                    }
+                    
+                    index = answerList.indexOf(option.text);
+                    if (index >= 0) {
+                      answerList.splice(index, 1);
+                    } else {
+                      answerList.push(option.text);
+                    }
+                    setAnswers({ ...answers, [question.question]: answerList});
+                    
+                  }}>
+                    <Text style={styles.buttonText}>{option.text}</Text>
+                </TouchableOpacity>
+            
+                
+              </View>
+            ))}
+            </View>
+            )}
             
           </View>
           
