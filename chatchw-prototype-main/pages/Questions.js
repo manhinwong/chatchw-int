@@ -64,7 +64,7 @@ const Questions = ({navigation}) => {
     },
     {
       question: "What symptoms does the patient have?",
-      type: "MCM",
+      type: "YN",
       options: [
         {"id": "yes", "text": "Yes"},
         {"id": "no", "text": "No"},
