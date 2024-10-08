@@ -14,7 +14,8 @@ const DiagnosisResult = ({ route, navigation }) => {
   const getResult = () => {
     setButtonDisabled(true);
     runDiagnosis(answers).then(response => {
-      setDiagnosisResult(JSON.parse(response));
+      console.log(response);
+      setDiagnosisResult(response);
       setButtonDisabled(false);
     });}
 
@@ -43,6 +44,7 @@ const DiagnosisResult = ({ route, navigation }) => {
     }
     let texts = [];
     console.log(diagnosisResult);
+    console.log(diagnosisResult["Health issues"]);
     for (let i = 0; i < diagnosisResult["Health issues"].length; i++) {
       texts.push("\nPossible issue: ");
       texts.push(diagnosisResult["Health issues"][i]["Issue"]);
