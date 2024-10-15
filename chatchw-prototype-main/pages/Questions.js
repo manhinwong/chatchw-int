@@ -28,7 +28,23 @@ const Questions = ({navigation}) => {
   const increaseProgress = () => {
     setProgress(prevProgress => Math.min(prevProgress + 10, 100)); // Increases by 10%, max 100%
   };
-  
+
+  const saveResponseToMongoDB = async (questionId, question, answer) => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/saveResponse', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ questionId, question, answer }),
+      });
+      const result = await response.json();
+      console.log(result.message);
+    } catch (error) {
+      console.error('Error saving response:', error);
+    }
+  };
+
   const questions_init = [
     {
       question: "What is the patient's sex?",
@@ -52,7 +68,16 @@ const Questions = ({navigation}) => {
       }
     },
     {
-      question: "Who is accompaning the patient?",
+      question: "Does the patient have a caregiver?",
+      type: "YN",
+      options: [
+        {"id": "yes", "text": "Yes"},
+        {"id": "no", "text": "No"},
+        {"id": "not_sure", "text": "Not sure"}
+      ]
+    },
+    {
+      question: "Who is accompanying the patient?",
       type: "MCM",
       options: [
         {"id": 1, "text": "None"},
@@ -60,15 +85,6 @@ const Questions = ({navigation}) => {
         {"id": 3, "text": "Friends"},
         {"id": 4, "text": "Health workers"},
         {"id": 5, "text": "Other"}
-      ]
-    },
-    {
-      question: "What symptoms does the patient have?",
-      type: "YN",
-      options: [
-        {"id": "yes", "text": "Yes"},
-        {"id": "no", "text": "No"},
-        {"id": "not_sure", "text": "Not sure"}
       ]
     },
     {
@@ -153,98 +169,87 @@ const Questions = ({navigation}) => {
           <Image style={styles.image} source={{uri: 'https://static.vecteezy.com/system/resources/previews/023/790/858/original/left-arrow-icon-clipart-free-free-png.png'}}/>
         </Pressable> */}
 
-        {questions.map((question, index) => (
-          
-          <View key={index}>
-            <Text style={styles.questionText}>{question.question}</Text>
-            {question.type === 'NUM' && (
-            <View>
-            <Picker
-              onValueChange={(value) => {
-                setCurrentQuestion(question.question);
-                setAnswers({ ...answers, [question.question]: value});
-              }}
-              style={styles.picker}
-            >
-              {/*Array.from(Array(question.range.max - question.range.min + 1).keys()).map((num) => ({ label: `${num} Years Old`, value: num}))*/}
-              <Picker.Item label="Select" value=""/>
-              {range(question.range.min, question.range.max, question.range.step).map((item, index) => (
-                <Picker.Item key={index} label={item + " " + question.range.unit} value={item} />
-              ))}
-            </Picker>
-              </View>
-              
-        )}
+  {questions.map((question, index) => (
+    <View key={index}>
+      <Text style={styles.questionText}>{question.question}</Text>
 
-        {question.type === 'FREE' && (
-              <View>
-                <TextInput
-                  style={styles.input}
-                  onChangeText={(value) => {
-                    setCurrentQuestion(question.question);
-                    setAnswers({ ...answers, [question.question]: value});
-                  }}
-                  placeholder="Type here"
-                />
-              </View>
-              
-        )}
-
-        {(question.type === 'MC' || question.type === 'YN') && (
-          <View>
-            {question.options.map((option, optionIndex) => (
-              <View key={optionIndex}>
-                <TouchableOpacity style={answers[question.question] === option.text ? styles.buttonSelected : styles.buttonUnSelected}
- 
-                  onPress={() => {
-                    setCurrentQuestion(question.question);
-                    setAnswers({ ...answers, [question.question]: option.text});
-                  }}>
-                    <Text style={styles.buttonText}>{option.text}</Text>
-                </TouchableOpacity>
-            
-                
-              </View>
+      {question.type === 'NUM' && (
+        <View>
+          <Picker
+            onValueChange={(value) => {
+              setCurrentQuestion(question.question);
+              setAnswers({ ...answers, [question.question]: value });
+            }}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select" value="" />
+            {range(question.range.min, question.range.max, question.range.step).map((item, index) => (
+              <Picker.Item key={index} label={item + " " + question.range.unit} value={item} />
             ))}
-            </View>
-            )}
+          </Picker>
+        </View>
+      )}
 
-        {(question.type === 'MCM') && (
-          <View>
-            {question.options.map((option, optionIndex) => (
-              <View key={optionIndex}>
-                <TouchableOpacity style={answers[question.question] != null && answers[question.question].indexOf(option.text) >= 0 ? styles.buttonSelected : styles.buttonUnSelected}
- 
-                  onPress={() => {
-                    setCurrentQuestion(question.question);
-                    let answerList = answers[question.question];
-                    try {
-                      answerList.indexOf(option.text);
-                    } catch (e) {
-                      answerList = [];
-                    }
-                    
-                    index = answerList.indexOf(option.text);
-                    if (index >= 0) {
-                      answerList.splice(index, 1);
-                    } else {
-                      answerList.push(option.text);
-                    }
-                    setAnswers({ ...answers, [question.question]: answerList});
-                    
-                  }}>
-                    <Text style={styles.buttonText}>{option.text}</Text>
-                </TouchableOpacity>
-            
-                
-              </View>
-            ))}
+      {question.type === 'FREE' && (
+        <View>
+          <TextInput
+            style={styles.input}
+            onChangeText={(value) => {
+              setCurrentQuestion(question.question);
+              setAnswers({ ...answers, [question.question]: value });
+            }}
+            placeholder="Type here"
+          />
+        </View>
+      )}
+
+      {(question.type === 'MC' || question.type === 'YN') && (
+        <View>
+          {/* Check if options array exists */}
+          {question.options && question.options.map((option, optionIndex) => (
+            <View key={optionIndex}>
+              <TouchableOpacity
+                style={answers[question.question] === option.text ? styles.buttonSelected : styles.buttonUnSelected}
+                onPress={() => {
+                  setCurrentQuestion(question.question);
+                  setAnswers({ ...answers, [question.question]: option.text });
+                }}
+              >
+                <Text style={styles.buttonText}>{option.text}</Text>
+              </TouchableOpacity>
             </View>
-            )}
-            
-          </View>
-          
-        ))}
+          ))}
+        </View>
+      )}
+
+      {question.type === 'MCM' && (
+        <View>
+          {/* Check if options array exists */}
+          {question.options && question.options.map((option, optionIndex) => (
+            <View key={optionIndex}>
+              <TouchableOpacity
+                style={answers[question.question] && answers[question.question].indexOf(option.text) >= 0 ? styles.buttonSelected : styles.buttonUnSelected}
+                onPress={() => {
+                  setCurrentQuestion(question.question);
+                  let answerList = answers[question.question] || [];
+                  const index = answerList.indexOf(option.text);
+                  if (index >= 0) {
+                    answerList.splice(index, 1); // Remove if selected
+                  } else {
+                    answerList.push(option.text); // Add if not selected
+                  }
+                  setAnswers({ ...answers, [question.question]: answerList });
+                }}
+              >
+                <Text style={styles.buttonText}>{option.text}</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+      )}
+    </View>
+  ))}
+
 
 
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
